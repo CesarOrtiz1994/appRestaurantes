@@ -20,7 +20,7 @@ export default function HomeScreen() {
           console.log(data, details);
         }}
         query={{
-          key: 'AIzaSyCHgz2fULS4SvHYncjOksNfidTQ8E20Ckc',
+          key: 'Api Key ',
           language: 'en',
         }}
         fetchDetails={true}
@@ -31,6 +31,18 @@ export default function HomeScreen() {
         //     <Text>No results were found</Text>
         //   </View>
         // )}
+        // predefinedPlaces={[
+        //   {
+        //     type: 'favorite',
+        //     description: 'Dominos Pizza',
+        //     geometry: {location: {lat: 48.8152937, lng: 2.4597668}},
+        //   },
+        //   {
+        //     type: 'favorite',
+        //     description: 'Chicken Republic',
+        //     geometry: {location: {lat: 48.8496818, lng: 2.2940881}},
+        //   },
+        // ]}
       />
     </View>
   );
