@@ -11,12 +11,12 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async() => {
-    console.log('iniciar')
+    // console.log('iniciar')
     await signInWithEmailAndPassword(authh, email, password)
       .then((userCredential) => {
         // Usuario inició sesión exitosamente
         const user = userCredential.user;
-        console.log("Usuario inició sesión:", user);
+        // console.log("Usuario inició sesión:", user);
         // Puedes redirigir a la pantalla de inicio aquí
       })
       .catch((error) => {
