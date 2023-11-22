@@ -1,49 +1,88 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import React, { useEffect, useRef, useState } from 'react';
+// import GooglePlacesInput from '../../../components/GooglePlacesInput'
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image
+} from "react-native";
+
+
 
 export default function HomeScreen() {
 
-  // const ref = useRef();
+  const [businesses, setBusinesses] = useState([]);
 
-  // useEffect(() => {
-  //   ref.current?.setAddressText('Some Text');
-  // }, []);
+  const fetchBusinesses = async () => {
+    // const endpoint = "https://api.yelp.com/v3/businesses/search?location=Queretaro, Qro&categories=restaurants&sort_by=best_match&limit=20";
+    const endpoint = "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=6000&categories=restaurants&sort_by=best_match&limit=25"
+    const endpoint_japonesa = "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=8000&categories=sushi&categories=japanese&locale=es_MX&sort_by=best_match&limit=20"
+    const endpoint_mexicana = "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=8000&categories=mexican&locale=es_MX&sort_by=best_match&limit=20"
+    const endpoint_italiana = "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=8000&categories=italian&locale=es_MX&sort_by=best_match&limit=20"
+    
+
+    const key = ''
+
+    const response = await fetch(endpoint_japonesa, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${key}`,
+      },
+      // params,
+    });
+     console.log(response)
+
+    if (response.status === 200) {
+      const data = await response.json();
+      setBusinesses(data.businesses);
+    }
+  };
+
+  useEffect(() => {
+    fetchBusinesses();
+  }, []);
 
   return (
-    <View >
-      <GooglePlacesAutocomplete
-        // ref={ref}
-        placeholder='Search'
-        onPress={(data, details = null) => {
-          // 'details' is provided when fetchDetails = true
-          console.log(data, details);
-        }}
-        query={{
-          key: 'Api Key ',
-          language: 'en',
-        }}
-        fetchDetails={true}
-        onFail={error => console.log(error)}//mostar errores
-        onNotFound={() => console.log('no results')}
-        // listEmptyComponent={() => (
-        //   <View style={{flex: 1}}>
-        //     <Text>No results were found</Text>
-        //   </View>
-        // )}
-        // predefinedPlaces={[
-        //   {
-        //     type: 'favorite',
-        //     description: 'Dominos Pizza',
-        //     geometry: {location: {lat: 48.8152937, lng: 2.4597668}},
-        //   },
-        //   {
-        //     type: 'favorite',
-        //     description: 'Chicken Republic',
-        //     geometry: {location: {lat: 48.8496818, lng: 2.2940881}},
-        //   },
-        // ]}
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Restaurantes en Querétaro</Text>
+      <FlatList
+        data={businesses}
+        keyExtractor={(business) => business.id}
+        renderItem={({ item }) => (
+          <View style={styles.business}>
+            
+            {/* <Image source={{ uri: item.image_url }} style={styles.image} /> */}
+  
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.rating}>{item.rating} estrellas</Text>
+          </View>
+        )}
       />
-    </View>
+    </SafeAreaView>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  business: {
+    margin: 10,
+    borderRadius: 5,
+    backgroundColor: "#ffffff",
+  },
+  name: {
+    fontSize: 18,
+  },
+  rating: {
+    fontSize: 16,
+  },
+});
