@@ -2,22 +2,33 @@ import React from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useEffect, useRef } from "react";
 
-const GooglePlacesInput = () => {
+const GooglePlacesInput = ({navigation}) => {
   const ref = useRef();
 
   useEffect(() => {
     ref.current?.setAddressText('Queretaro');
   }, []);
+
+  const handleRestaurantDetail = (data) => {
+    // Redirige a la pantalla de edición de perfil
+    navigation.navigate("Restaurant", {
+      id: data.reference,
+      name: data.structured_formatting.main_text,
+      address: data.structured_formatting.secondary_text,
+    });
+  };
+  
   return (
     <GooglePlacesAutocomplete
     ref={ref}
       placeholder="Search"
       onPress={(data, details = null) => {
         // 'details' is provided when fetchDetails = true
-        console.log(data);
+        // console.log(data);
+        handleRestaurantDetail(data)
       }}
       query={{
-        key: "",
+        key: "AIzaSyA1z4pNGYp7vCyEdzQ_y7tpI4zAapVrH_U",
         language: "es",
         components: 'country:MX',
         types: 'restaurant',
