@@ -17,7 +17,7 @@ const GooglePlacesInput = () => {
         console.log(data);
       }}
       query={{
-        key: "AIzaSyA1z4pNGYp7vCyEdzQ_y7tpI4zAapVrH_U",
+        key: "",
         language: "es",
         components: 'country:MX',
         types: 'restaurant',
