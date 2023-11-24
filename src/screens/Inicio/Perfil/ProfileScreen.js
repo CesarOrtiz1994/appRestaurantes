@@ -1,8 +1,12 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 import {auth} from '../../../../Firebase/firebaseConfig'
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Importa AsyncStorage si estás usando esta opción para almacenamiento local
+import { styles } from "./Profile.styles";
+import { Button, Divider } from "react-native-paper";
+import { forms } from "../../../styles/forms";
+import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const authh = getAuth(auth)
 
@@ -12,7 +16,7 @@ const ProfileScreen = ({navigation}) => {
 
   useEffect(() => {
     const infoUser = authh.currentUser;
-    console.log(infoUser)
+    // console.log(infoUser)
     setUser(infoUser)
     const loadUserData = async () => {
       // Cargar la información del usuario desde el almacenamiento local o el estado global
@@ -49,29 +53,28 @@ const ProfileScreen = ({navigation}) => {
     navigation.navigate("EditProfile");
   };
 
+  const handleFavoritos = () => {
+    // Redirige a la pantalla de edición de perfil
+    navigation.navigate("Favorites");
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Perfil del Usuario</Text>
       {user && (
-        <View>
-          <Text>Nombre: {displayName}</Text>
-          <Text>Correo Electrónico: {user.email}</Text>
-          <Text>UID: {user.uid}</Text>
+        <View style={styles.containerUser}>
+          <Text style={styles.text1}>{displayName}</Text>
+          <Text style={styles.text2}>{user.email}</Text>
           {/* Puedes mostrar más información del usuario según tus necesidades */}
         </View>
       )}
-      <Button title="Editar Perfil" onPress={handleEditProfile} />
-      <Button title="Cerrar Sesión" onPress={handleSignOut} />
+      <Button mode="contained" style={[forms.buttonTextSecundary, styles.btnEditar]} onPress={handleEditProfile} >Editar</Button>
+      <Divider />
+      <Button mode="text" style={[forms.buttonText]} onPress={handleFavoritos} >
+      <AwesomeIcon name='heart' color='#4F9218' style={styles.iconFav} />    Mis restaurantes favoritos
+        </Button>
+      <Button mode="contained" style={[forms.buttonText, styles.btnCerrar]} onPress={handleSignOut} >Cerrar Sesión</Button>
     </View>
   );
   };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default ProfileScreen;

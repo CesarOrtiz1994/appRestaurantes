@@ -7,6 +7,19 @@ import MainTabs from "./src/navigation/MainTabs"
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from './Firebase/firebaseConfig'
 import React, { useEffect, useState } from "react";
+import {
+  MD3LightTheme,
+  PaperProvider,
+} from 'react-native-paper';
+
+const theme = {
+  ...MD3LightTheme,
+  roundness: 2,
+  colors: {
+    ...MD3LightTheme.colors,
+    primary: '#4F9218',
+  },
+};
 
 const authh = getAuth(auth)
 export default function App() {
@@ -28,11 +41,13 @@ export default function App() {
   }, []);
 
   return (
+      <PaperProvider theme={theme}>
     <SafeAreaProvider>
       <NavigationContainer>
         {isLoggedIn ? <MainTabs /> : <AuthStack />}
       </NavigationContainer>
       <StatusBar />
     </SafeAreaProvider>
+    </PaperProvider>
   );
 }

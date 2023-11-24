@@ -1,48 +1,94 @@
 import { styles } from './RegistroScreen.style'
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, Image } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../../../../Firebase/firebaseConfig'
+import { auth } from '../../../../Firebase/firebaseConfig'
+import { forms } from '../../../styles/forms';
+import { Button, TextInput } from 'react-native-paper';
+import * as Yup from 'yup'
+import { useFormik } from 'formik';
+import Toast from 'react-native-root-toast';
 
 const authh = getAuth(auth)
-const RegistroScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const RegistroScreen = ({ navigation }) => {
 
-  const handleRegister = async() => {
-    console.log("Registrando usuario...");
-    await createUserWithEmailAndPassword(authh, email, password)
-      .then((userCredential) => {
-        // Usuario registrado exitosamente
-        const user = userCredential.user;
-        console.log("Usuario registrado:", user);
-        // Puedes redirigir a la pantalla de inicio aquí
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorMessage = error.message;
-        console.error("Error al registrar el usuario:", errorMessage);
-      });
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+      repeatPassword: ''
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email(true).required(true),
+      password: Yup.string().required(true).min(8, true),
+      repeatPassword: Yup.string().required(true).min(8, true).oneOf([Yup.ref('password')], true)
+    }),
+    validateOnChange: false,
+    onSubmit: async (formData) => {
+      const { email, password } = formData;
+      await createUserWithEmailAndPassword(authh, email, password)
+        .then((userCredential) => {
+          // Usuario registrado exitosamente
+          const user = userCredential.user;
+          // console.log("Usuario registrado:", user);
+          // Puedes redirigir a la pantalla de inicio aquí
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          // const errorMessage = error.message;
+          // console.error("Error al registrar el usuario:", errorMessage);
+          Toast.show('Error al registrar el usuario.', {
+            position: Toast.positions.CENTER
+          })
+        });
+    }
+  });
 
   return (
     <View style={styles.container}>
-      <Text>Registro</Text>
+      <View style={styles.imgLogo}>
+        <Image source={require('../../../assets/logo.png')} style={styles.image} />
+      </View>
+      <Text style={styles.text1}>Bienvenido</Text>
+      <Text style={styles.text2}>Crea tu cuenta</Text>
       <TextInput
         placeholder="Correo electrónico"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-        style={styles.input}
+        style={forms.input}
+        autoCapitalize='none'
+        underlineColor="transparent"
+        onChangeText={(text) => formik.setFieldValue('email', text)}
+        value={formik.values.email}
+        error={formik.errors.email}
       />
       <TextInput
         placeholder="Contraseña"
+        style={forms.input}
+        underlineColor="transparent"
         secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-        style={styles.input}
+        onChangeText={(text) => formik.setFieldValue('password', text)}
+        value={formik.values.password}
+        error={formik.errors.password}
       />
-      <Button title="Registrarse" onPress={handleRegister} />
-      
+      <TextInput
+        label="Repetir contraseña"
+        style={forms.input}
+        underlineColor="transparent"
+        secureTextEntry
+        onChangeText={(text) => formik.setFieldValue('repeatPassword', text)}
+        value={formik.values.repeatPassword}
+        error={formik.errors.repeatPassword}
+      />
+      <Button
+        mode="contained"
+        style={forms.buttonSubmit}
+        onPress={formik.handleSubmit}
+        loading={formik.isSubmitting}
+      >Registrar</Button>
+      <Button
+        mode="text"
+        onPress={() => navigation.navigate("Login")}
+        style={forms.buttonText}
+      >Ya tienes una cuenta? Inicia sesión</Button>
     </View>
   );
 };
