@@ -11,6 +11,9 @@ import {
   MD3LightTheme,
   PaperProvider,
 } from 'react-native-paper';
+import * as Location from 'expo-location';
+import { UserLocationContext } from "./src/Context/UserLocationContext";
+import Colors from "./src/constants/Colors";
 
 const theme = {
   ...MD3LightTheme,
@@ -21,9 +24,6 @@ const theme = {
   },
 };
 
-import * as Location from 'expo-location';
-import { UserLocationContext } from "./src/Context/UserLocationContext";
-import Colors from "./src/constants/Colors";
 
 
 const authh = getAuth(auth)
@@ -38,7 +38,8 @@ export default function App() {
 
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        setErrorMsg('Permisos para acceder a la localización denegados');
+        alert('Permisos de ubicación rechazados. Se requieren los permisos de ubicación para consultar restaurantes cercanos.')
         return;
       }
 

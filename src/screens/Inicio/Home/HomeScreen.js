@@ -7,41 +7,54 @@ import GlobalApi from "../../../Services/GlobalApi";
 import { UserLocationContext } from "../../../Context/UserLocationContext";
 import PlaceItem from "../../../components/Places/PlaceItem";
 import { FlatList } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Divider } from "react-native-paper";
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen() {
 
   const [placeList, setPlaceList] = useState([]);
-  const { location, setLocation } = useContext(UserLocationContext)
+  const { location, setLocation } = useContext(UserLocationContext);
+  const navigation = useNavigation();
 
   useEffect(() => {
     GetPlaces();
   }, []);
 
   const GetPlaces = async () => {
-    // console.log("lat",location.coords.latitude, "lng", location.coords.longitude)
-    await GlobalApi.nearByPlace(location.coords.latitude, location.coords.longitude).then((res) => {
-      // console.log(res.data.results.length)
-      setPlaceList(res.data.results)
-    })
+    // console.log(location.coords)
+    if (location) {
+      await GlobalApi.nearByPlace(location.coords.latitude, location.coords.longitude).then((res) => {
+        // console.log(res.data.results.length)
+        setPlaceList(res.data.results)
+      })
+    }
+  }
+
+  const onPlaceClick = (place) => {
+    navigation.navigate('Restaurant', { place: place })
   }
 
   return (
     <View style={styles.container}>
-      <View>
-        {/* <GooglePlacesInput navigation={navigation} /> */}
-      </View>
       {placeList ?
         <FlatList
-        data={placeList}
-        renderItem={({ item }) => (
-          <PlaceItem place={item} />
-          )}
+          data={placeList}
+          showsVerticalScrollIndicator={false}
           ListHeaderComponent={
-            <View>
-              <GoogleMapView />
-              <Text>Se encontraron {placeList.length} restaurantes</Text>
-            </View>
+            location ?
+              <View>
+                <GoogleMapView placeList={placeList} />
+                <Divider />
+                <Text style={styles.textEncontrados}>Se encontraron {placeList.length} restaurantes:</Text>
+              </View>
+              : <Text>Activar la ubicación del dispositivo y volver a cargar.</Text>
           }
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => onPlaceClick(item)}>
+              <PlaceItem place={item} />
+            </TouchableOpacity>
+          )}
         />
         : null}
     </View>

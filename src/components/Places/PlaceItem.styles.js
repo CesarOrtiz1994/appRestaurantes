@@ -30,5 +30,8 @@ export const styles = StyleSheet.create({
     },
     desciption: {
         flex: 1,
-    }
+    },
+    textAddress: {
+        color: Colors.VERDE
+    },
 })

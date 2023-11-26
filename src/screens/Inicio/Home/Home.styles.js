@@ -6,4 +6,8 @@ export const styles = StyleSheet.create({
         backgroundColor: '#fff',
         flex: 1,
     },
+    textEncontrados: {
+        marginTop: 10,
+        fontSize: 16
+    }
 })

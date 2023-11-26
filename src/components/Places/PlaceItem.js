@@ -19,12 +19,10 @@ export default function PlaceItem({ place }) {
 
     return (
         <View style={styles.container}>
-            <Image source={ sourceImg } 
-            style={styles.image}
-            />
+            <Image source={ sourceImg } style={styles.image} />
             <View style={styles.desciption}>
                 <Text numberOfLines={2} style={styles.text}>{place.name}</Text>
-                <Text numberOfLines={2} style={styles.text}>{place.vicinity}</Text>
+                <Text numberOfLines={2} style={[styles.text, styles.textAddress]}>{place.vicinity}</Text>
                 <View style={styles.sectionRating}>
                     <AntDesign name="star" style={styles.ratingStar} />
                     <Text>{place.rating}</Text>
