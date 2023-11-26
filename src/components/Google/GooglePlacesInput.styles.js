@@ -1,4 +1,5 @@
 ﻿import { StyleSheet } from "react-native";
+import Colors from "../../constants/Colors";
 
 export const styles = StyleSheet.create({
     container: {
@@ -6,7 +7,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 30,
     },
     description: {
-        color: '#4F9218',
+        color: Colors.VERDE,
         fontSize: 16,
     },
     predefinedPlacesDescription: {
@@ -14,10 +15,10 @@ export const styles = StyleSheet.create({
         color: 'blue',
     },
     textInput: {
-        borderColor: '#FF5C00',
+        borderColor: Colors.NARANJA,
         borderWidth: 1,
         fontSize: 20,
-        color: '#4F9218',
+        color: Colors.VERDE,
         marginTop: 20
     },
     row: {

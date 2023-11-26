@@ -7,6 +7,7 @@ import { styles } from "./Profile.styles";
 import { Button, Divider } from "react-native-paper";
 import { forms } from "../../../styles/forms";
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Colors from "../../../constants/Colors";
 
 const authh = getAuth(auth)
 
@@ -70,7 +71,7 @@ const ProfileScreen = ({navigation}) => {
       <Button mode="contained" style={[forms.buttonTextSecundary, styles.btnEditar]} onPress={handleEditProfile} >Editar</Button>
       <Divider />
       <Button mode="text" style={[forms.buttonText]} onPress={handleFavoritos} >
-      <AwesomeIcon name='heart' color='#4F9218' style={styles.iconFav} />    Mis restaurantes favoritos
+      <AwesomeIcon name='heart' color={Colors.VERDE} style={styles.iconFav} />    Mis restaurantes favoritos
         </Button>
       <Button mode="contained" style={[forms.buttonText, styles.btnCerrar]} onPress={handleSignOut} >Cerrar Sesión</Button>
     </View>

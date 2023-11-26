@@ -1,4 +1,5 @@
 ﻿import { StyleSheet } from "react-native";
+import Colors from "../constants/Colors";
 
 export const forms = StyleSheet.create({
     input: {
@@ -20,6 +21,6 @@ export const forms = StyleSheet.create({
     },
     buttonTextSecundary: {
         marginTop: 10,
-        backgroundColor: '#FF5C00'
+        backgroundColor: Colors.NARANJA
     },
 });

@@ -25,7 +25,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "googleMapsApiKey": "AIzaSyCSDuWHGWOw2pAMIKooMQ5TOLQhkz9u9FM"
       },
       "package": "com.example.apprestaurantes"
     },
@@ -37,6 +38,14 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Permita que AppRestaurantes use su ubicación."
+        }
+      ]
+    ]
   }
 }

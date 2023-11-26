@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useEffect, useRef } from "react";
-import { ENV } from "../utils/constants";
-import { Text, View } from "react-native";
-import { Searchbar } from "react-native-paper";
+import { ENV } from "../../utils/constants";
 import { styles } from "./GooglePlacesInput.styles";
 
 const GooglePlacesInput = ({ navigation }) => {
   const ref = useRef();
 
-  useEffect(() => {
+  // useEffect(() => {
     // ref.current?.setAddressText('Tacos');
-  }, []);
+  // }, []);
 
   const handleRestaurantDetail = (data, details) => {
     // Redirige a la pantalla de edición de perfil
@@ -42,52 +40,16 @@ const GooglePlacesInput = ({ navigation }) => {
         components: ENV.API_GOOGLE_PLACES.CONF_COMPONENTS,
         types: ENV.API_GOOGLE_PLACES.CONF_TYPES,
       }}
-      textInputProps={{
-        autoFocus: true,
-
-
-      }}
+      // textInputProps={{
+      //   autoFocus: true,
+      // }}
       styles={styles}
       enablePoweredByContainer={false}
       // currentLocation={true}
-      // currentLocationLabel="aaa"
+      // currentLocationLabel="Ubicación actual"
     />
   );
 };
 
 export default GooglePlacesInput;
 
-{
-  /* <GooglePlacesAutocomplete
-// ref={ref}
-placeholder='Search'
-onPress={(data, details = null) => {
-  // 'details' is provided when fetchDetails = true
-  console.log(data, details);
-}}
-query={{
-  key: 'AIzaSyATVMIpf6-uBA6bfIPaPExOAWQD2SC8TUg',
-  language: 'en',
-}}
-fetchDetails={true}
-onFail={error => console.log(error)}//mostar errores
-onNotFound={() => console.log('no results')}
-// listEmptyComponent={() => (
-//   <View style={{flex: 1}}>
-//     <Text>No results were found</Text>
-//   </View>
-// )}
-// predefinedPlaces={[
-//   {
-//     type: 'favorite',
-//     description: 'Dominos Pizza',
-//     geometry: {location: {lat: 48.8152937, lng: 2.4597668}},
-//   },
-//   {
-//     type: 'favorite',
-//     description: 'Chicken Republic',
-//     geometry: {location: {lat: 48.8496818, lng: 2.2940881}},
-//   },
-// ]}
-/> */
-}

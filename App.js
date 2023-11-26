@@ -17,15 +17,36 @@ const theme = {
   roundness: 2,
   colors: {
     ...MD3LightTheme.colors,
-    primary: '#4F9218',
+    primary: Colors.VERDE,
   },
 };
+
+import * as Location from 'expo-location';
+import { UserLocationContext } from "./src/Context/UserLocationContext";
+import Colors from "./src/constants/Colors";
+
 
 const authh = getAuth(auth)
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
+
+    (async () => {
+
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+      // console.log(location)
+    })();
+
     const unsubscribe = onAuthStateChanged(authh, (user) => {
       if (user) {
         // El usuario ha iniciado sesión
@@ -41,13 +62,15 @@ export default function App() {
   }, []);
 
   return (
-      <PaperProvider theme={theme}>
-    <SafeAreaProvider>
-      <NavigationContainer>
-        {isLoggedIn ? <MainTabs /> : <AuthStack />}
-      </NavigationContainer>
-      <StatusBar />
-    </SafeAreaProvider>
+    <PaperProvider theme={theme}>
+      <SafeAreaProvider>
+        <UserLocationContext.Provider value={{location, setLocation}}>
+          <NavigationContainer>
+            {isLoggedIn ? <MainTabs /> : <AuthStack />}
+          </NavigationContainer>
+          <StatusBar />
+        </UserLocationContext.Provider>
+      </SafeAreaProvider>
     </PaperProvider>
   );
 }

@@ -16,4 +16,6 @@ export default {
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
   },
+  VERDE: '#4F9218',
+  NARANJA: '#FF5C00',
 };

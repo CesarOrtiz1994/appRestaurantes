@@ -4,7 +4,9 @@ import FavoritosScreen from "../screens/Inicio/Favoritos/FavoritosScreen";
 import PerfilStack from "./PerfilStack";
 import HomeStack from "./HomeStack";
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {Ionicons, FontAwesome} from "react-native-vector-icons";
 import { styles } from "../styles/MainTabsStyles";
+import Colors from "../constants/Colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -29,10 +31,10 @@ export default MainTabs;
 
 const setIcon = (route, routeStatus) => {
   let iconName = '';
-  let color = '#4F9218';
+  let color = Colors.VERDE;
 
   if (routeStatus.focused) {
-    color = '#FF5C00';
+    color = Colors.NARANJA;
   }
 
   if (route.name === 'Home') {
@@ -42,8 +44,9 @@ const setIcon = (route, routeStatus) => {
     iconName = 'heart';
   }
   if (route.name === 'Profile') {
-    iconName = 'user';
+    iconName = 'user-circle-o';
+    return <FontAwesome name={iconName} color={color} style={styles.icon} />
   }
 
-  return <AwesomeIcon name={iconName} color={color} style={styles.icon} />
+  return <Ionicons name={iconName} color={color} style={styles.icon} />
 }
