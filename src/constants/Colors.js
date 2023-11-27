@@ -18,4 +18,5 @@ export default {
   },
   VERDE: '#4F9218',
   NARANJA: '#FF5C00',
+  NREGO_TRANSPARENTE_32: 'rgba(0, 0, 0, 0.32)',
 };

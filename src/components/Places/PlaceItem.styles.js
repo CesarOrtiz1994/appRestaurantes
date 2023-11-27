@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
     textAddress: {
-        color: 'rgba(0, 0, 0, 0.32)'
+        color: Colors.NREGO_TRANSPARENTE_32,
     },
     textName: {
         color: Colors.VERDE

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../../constants/Colors';
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,6 +18,6 @@ export const styles = StyleSheet.create({
   text2: {
     fontSize: 14,
     marginBottom: 20,
-    color: 'rgba(0, 0, 0, 0.32)'
+    color: Colors.NREGO_TRANSPARENTE_32,
   },
 })
