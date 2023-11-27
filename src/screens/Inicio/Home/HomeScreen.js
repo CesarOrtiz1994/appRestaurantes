@@ -10,6 +10,7 @@ import { FlatList } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Divider } from "react-native-paper";
+import Categorias from "../../../components/Categorias/Categorias";
 
 export default function HomeScreen() {
 
@@ -18,13 +19,18 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   useEffect(() => {
-    GetPlaces();
+    GetPlaces('restaurant');
   }, []);
 
-  const GetPlaces = async () => {
+  const GetPlaces = async (type) => {
     // console.log(location.coords)
     if (location) {
-      await GlobalApi.nearByPlace(location.coords.latitude, location.coords.longitude).then((res) => {
+      // console.log(type)
+      await GlobalApi.nearByPlace(
+        location.coords.latitude, 
+        location.coords.longitude,
+        type
+        ).then((res) => {
         // console.log(res.data.results.length)
         setPlaceList(res.data.results)
       })
@@ -37,18 +43,18 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      {placeList ?
+      {placeList &&
         <FlatList
           data={placeList}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
-            location ?
+            location &&
               <View>
                 <GoogleMapView placeList={placeList} />
                 <Divider />
-                <Text style={styles.textEncontrados}>Se encontraron {placeList.length} restaurantes:</Text>
+                {/* <Text style={styles.textEncontrados}>Se encontraron {placeList.length} restaurantes:</Text> */}
+                <Categorias setSelectedCategory={(value)=> GetPlaces(value)} />
               </View>
-              : <Text>Activar la ubicación del dispositivo y volver a cargar.</Text>
           }
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => onPlaceClick(item)}>
@@ -56,7 +62,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
           )}
         />
-        : null}
+        }
     </View>
   );
 }

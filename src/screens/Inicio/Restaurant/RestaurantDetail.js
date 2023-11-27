@@ -4,40 +4,43 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-paper";
 import { Platform } from "react-native";
 import { ScrollView } from "react-native";
+import GlobalApi from "../../../Services/GlobalApi";
 
 const RestaurantDetail = (props) => {
   const { navigation, route: { params } } = props;
   const [place, setPlace] = useState([])
 
   useEffect(()=> {
-    setPlace(params.place)
+    GetDetailPlace()
+    
   },[]);
+
+  const GetDetailPlace = async () => {
+    await GlobalApi.searchPlaceById(params.place.place_id).then((res) => {
+      // console.log(res.data.result)
+      setPlace(res.data.result)
+    })
+  }
 
   const onDirectionClick = () => {
     const url = Platform.select({
       ios: "maps:" + place.geometry.location.lat + "," + place.geometry.location.lng + "?q=" + place.vicinity,
       android: "geo:" + place.geometry.location.lat + "," + place.geometry.location.lng + "?q=" + place.vicinity,
     });
-
     Linking.openURL(url)
   }
 
   return (
     <ScrollView style={styles.container}>
       <Text>Detalle</Text>
-      {/* <Text>ID: {params.id}</Text>
-      <Text>Name: {params.name}</Text>
-      <Text>Address: {params.address}</Text>
+      <Text>{place.name}</Text>
+      <Text>{place.vicinity}</Text>
+      <Text>Calificación general: {place.rating}</Text>
       <Text>Horarios: </Text>
-      {params.horarios.map((horario) => (
+      {place.opening_hours && place.opening_hours.weekday_text.map((horario) => (
         <Text key={horario}>{horario}</Text>
         ))}
-        
-      <Text>Localización geometrica</Text>
-      <Text>latitud: {params.latitud}</Text>
-      <Text>longitud: {params.longitud}</Text>
-      <Text>Calificación general: {params.rating}</Text>
-      <Text>Comentarios: ...</Text>  */}
+      <Text>Comentarios: ...</Text> 
       {/* params.reviews */}
       <Button mode="contained" onPress={()=> onDirectionClick()}>Ver dirección en otra App</Button>
     </ScrollView>

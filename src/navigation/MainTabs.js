@@ -7,6 +7,7 @@ import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import {Ionicons, FontAwesome} from "react-native-vector-icons";
 import { styles } from "../styles/MainTabsStyles";
 import Colors from "../constants/Colors";
+import CategoryStack from "./CategoryStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,7 @@ const MainTabs = () => {
       })}>
       <Tab.Screen name="Profile" component={PerfilStack} options={{ headerShown: false }} />
       <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
+      {/* <Tab.Screen name="Category" component={CategoryStack} options={{ headerShown: false }} /> */}
       <Tab.Screen name="Favorites" component={FavoritosScreen} options={{ title: "Favoritos" }} />
     </Tab.Navigator>
   );
@@ -42,6 +44,9 @@ const setIcon = (route, routeStatus) => {
   }
   if (route.name === 'Favorites') {
     iconName = 'heart';
+  }
+  if (route.name === 'Category') {
+    iconName = 'search';
   }
   if (route.name === 'Profile') {
     iconName = 'user-circle-o';

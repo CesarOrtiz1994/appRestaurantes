@@ -11,13 +11,13 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBlOl148UrL6nTHjHLX4sRZasR9jHxZzI8",
-  authDomain: "apprestaurantes-5ec5f.firebaseapp.com",
-  projectId: "apprestaurantes-5ec5f",
-  storageBucket: "apprestaurantes-5ec5f.appspot.com",
-  messagingSenderId: "152766209852",
-  appId: "1:152766209852:web:29838bf846ffa4a45e8839",
-  measurementId: "G-K2QX3L1945"
+  apiKey: "AIzaSyDH6AqsmRFcu33ChdBiuCxXGqoZyWqFzs4",
+  authDomain: "apprestaurantes-72e05.firebaseapp.com",
+  projectId: "apprestaurantes-72e05",
+  storageBucket: "apprestaurantes-72e05.appspot.com",
+  messagingSenderId: "544868681452",
+  appId: "1:544868681452:web:0728d78b2310aa823ac7c9",
+  measurementId: "G-0SDX3FHWN3"
 };
 
 // Initialize Firebase

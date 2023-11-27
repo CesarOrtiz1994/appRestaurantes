@@ -15,13 +15,13 @@ export default function PlaceItem({ place }) {
             "&photo_reference="+ place?.photos[0]?.photo_reference +
             "&key="+ENV.API_GOOGLE_MAPS.KEY});
         }
-    },[])
+    },[place])
 
     return (
         <View style={styles.container}>
             <Image source={ sourceImg } style={styles.image} />
             <View style={styles.desciption}>
-                <Text numberOfLines={2} style={styles.text}>{place.name}</Text>
+                <Text numberOfLines={2} style={[styles.text, styles.textName]}>{place.name}</Text>
                 <Text numberOfLines={2} style={[styles.text, styles.textAddress]}>{place.vicinity}</Text>
                 <View style={styles.sectionRating}>
                     <AntDesign name="star" style={styles.ratingStar} />

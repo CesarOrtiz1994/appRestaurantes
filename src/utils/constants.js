@@ -7,5 +7,9 @@
     },
     API_GOOGLE_MAPS: {
         KEY: "API_KEY_GOOGLE_MAPS"
-    }
+    },
+    API_YELP: {
+        KEY: "API_KEY_YELP"
+    },
+    RADIUS_SEARCH: "3000",
 }

@@ -6,42 +6,24 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState , useContext} from "react";
+import YelpApi from "../Services/YelpApi";
+import { UserLocationContext } from "../Context/UserLocationContext";
 
 const ApiYelp = () => {
   const [businesses, setBusinesses] = useState([]);
+  const { location, setLocation } = useContext(UserLocationContext)
 
   const fetchBusinesses = async () => {
-    // const endpoint = "https://api.yelp.com/v3/businesses/search?location=Queretaro, Qro&categories=restaurants&sort_by=best_match&limit=20";
-    const endpoint =
-      "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=6000&categories=restaurants&sort_by=best_match&limit=25";
-    const endpoint_japonesa =
-      "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=8000&categories=sushi&categories=japanese&locale=es_MX&sort_by=best_match&limit=20";
-    const endpoint_mexicana =
-      "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=8000&categories=mexican&locale=es_MX&sort_by=best_match&limit=20";
-    const endpoint_italiana =
-      "https://api.yelp.com/v3/businesses/search?latitude=20.630783&longitude=-100.452474&radius=8000&categories=italian&locale=es_MX&sort_by=best_match&limit=20";
-
-    const key =
-      "";
-
-    const response = await fetch(endpoint_mexicana, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${key}`,
-      },
-      // params,
-    });
-    console.log(response);
-
-    if (response.status === 200) {
-      const data = await response.json();
-      setBusinesses(data.businesses);
-    }
+    // console.log(location.coords)
+    await YelpApi.getRestaurantsNearYelp(location.coords.latitude, location.coords.longitude).then((res) => {
+      // console.log(res.data.businesses)
+      setBusinesses(res.data.businesses)
+    })
   };
 
   useEffect(() => {
-    fetchBusinesses();
+    // fetchBusinesses();
   }, []);
 
   return (
@@ -52,10 +34,8 @@ const ApiYelp = () => {
         keyExtractor={(business) => business.id}
         renderItem={({ item }) => (
           <View style={styles.business}>
+            {/* {console.log(item.categories)} */}
             <Text>{item.id}</Text>
-
-            {/* <Image source={{ uri: item.image_url }} style={styles.image} /> */}
-
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.rating}>{item.rating} estrellas</Text>
           </View>
@@ -67,7 +47,7 @@ const ApiYelp = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

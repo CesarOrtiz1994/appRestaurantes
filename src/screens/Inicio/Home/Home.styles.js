@@ -2,7 +2,7 @@
 
 export const styles = StyleSheet.create({
     container: {
-        padding: 20,
+        padding: 10,
         backgroundColor: '#fff',
         flex: 1,
     },

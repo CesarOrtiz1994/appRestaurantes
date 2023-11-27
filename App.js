@@ -24,8 +24,6 @@ const theme = {
   },
 };
 
-
-
 const authh = getAuth(auth)
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -43,9 +41,9 @@ export default function App() {
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
-      // console.log(location)
+      let location = await Location.watchPositionAsync({}, (newLocation) => {
+        setLocation(newLocation);
+      });
     })();
 
     const unsubscribe = onAuthStateChanged(authh, (user) => {

@@ -39,9 +39,10 @@ const ProfileScreen = ({navigation}) => {
   
   const handleSignOut = async() => {
     await signOut(authh)
-      .then(() => {
+      .then(async () => {
         // Sign-out exitoso
         console.log("Usuario ha cerrado sesión correctamente");
+        await AsyncStorage.removeItem("displayName");
       })
       .catch((error) => {
         // Manejar errores aquí
