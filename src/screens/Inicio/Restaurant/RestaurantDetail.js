@@ -1,19 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, Image, Linking } from "react-native";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { Card, Button } from "react-native-paper";
 import { Platform } from "react-native";
 import { ScrollView } from "react-native";
 import GlobalApi from "../../../Services/GlobalApi";
+import Favoritos from "../../../components/Favoritos/Favoritos";
 
 const RestaurantDetail = (props) => {
   const { navigation, route: { params } } = props;
   const [place, setPlace] = useState([])
 
-  useEffect(()=> {
+  useEffect(() => {
     GetDetailPlace()
-    
-  },[]);
+
+  }, []);
 
   const GetDetailPlace = async () => {
     await GlobalApi.searchPlaceById(params.place.place_id).then((res) => {
@@ -32,6 +33,9 @@ const RestaurantDetail = (props) => {
 
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.iconFav}>
+        <Favoritos place={place} />
+      </View>
       <Text>Detalle</Text>
       <Text>{place.name}</Text>
       <Text>{place.vicinity}</Text>
@@ -39,10 +43,10 @@ const RestaurantDetail = (props) => {
       <Text>Horarios: </Text>
       {place.opening_hours && place.opening_hours.weekday_text.map((horario) => (
         <Text key={horario}>{horario}</Text>
-        ))}
-      <Text>Comentarios: ...</Text> 
+      ))}
+      <Text>Comentarios: ...</Text>
       {/* params.reviews */}
-      <Button mode="contained" onPress={()=> onDirectionClick()}>Ver dirección en otra App</Button>
+      <Button mode="contained" onPress={() => onDirectionClick()}>Ver dirección en otra App</Button>
     </ScrollView>
   );
 };
@@ -51,10 +55,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 30,
-    marginTop: 40,
+    marginTop: 10,
     // justifyContent: "center",
     // alignItems: "center",
   },
+  iconFav: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
+  }
 });
 
 export default RestaurantDetail;

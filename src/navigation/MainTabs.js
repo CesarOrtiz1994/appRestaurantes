@@ -8,6 +8,7 @@ import {Ionicons, FontAwesome} from "react-native-vector-icons";
 import { styles } from "../styles/MainTabsStyles";
 import Colors from "../constants/Colors";
 import CategoryStack from "./CategoryStack";
+import FavoritosStack from "./FavoritosStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,7 +25,7 @@ const MainTabs = () => {
       <Tab.Screen name="Profile" component={PerfilStack} options={{ headerShown: false }} />
       <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
       {/* <Tab.Screen name="Category" component={CategoryStack} options={{ headerShown: false }} /> */}
-      <Tab.Screen name="Favorites" component={FavoritosScreen} options={{ title: "Favoritos" }} />
+      <Tab.Screen name="Favorites" component={FavoritosStack} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 };
