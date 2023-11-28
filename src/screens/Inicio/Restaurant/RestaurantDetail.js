@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, Linking } from "react-native";
 import { View, Text } from "react-native";
 import { Avatar, Button, Divider, TextInput } from "react-native-paper";
@@ -23,37 +23,42 @@ const RestaurantDetail = (props) => {
   const { navigation, route: { params } } = props;
   const [place, setPlace] = useState([])
   const [listComents, setListComents] = useState([])
-  const [comentUser, setComentUser] = useState({})
+  const [comentUser, setComentUser] = useState()
   const [tieneComent, setTieneComent] = useState(false)
-  const [indice, setIndice] = useState(0)
+
+
+  useEffect(() => {
+    (async () => {
+      await GetComentsPlace()
+    })()
+  }, [])
 
   useFocusEffect(
     useCallback(() => {
       (async () => {
-        GetDetailPlace()
-        GetComentsPlace()
+        await GetDetailPlace()
+        // await GetComentsPlace()
       })()
     }, [])
-    )
-    
-    const GetDetailPlace = async () => {
-      await GlobalApi.searchPlaceById(params.place.place_id).then((res) => {
-        // console.log(res.data.result)
-        setPlace(res.data.result)
+  )
+
+  const GetDetailPlace = async () => {
+    await GlobalApi.searchPlaceById(params.place.place_id).then((res) => {
+      // console.log(res.data.result)
+      setPlace(res.data.result)
     })
   }
 
   const GetComentsPlace = async () => {
+    // console.log(params.place.place_id)
     const coments = await getAllComents(params.place.place_id);
-    // console.log(place.reviews)
     // console.log(coments)
     if (coments) {
-      setListComents(coments.coments)
-      const comenUs = coments.coments.find(c => c.uid === user.uid);
+      const listFilterNoMe = coments.filter(obj => obj.uid !== user.uid);
+      setListComents(listFilterNoMe)
+      const comenUs = coments.find(c => c.uid === user.uid);
       // console.log("comenUs", comenUs)
       if (comenUs) {
-        const index = coments.findIndex(comment => comment.uid === user.uid);
-        setIndice(index);
         setComentUser(comenUs);
         setTieneComent(true);
       }
@@ -120,14 +125,18 @@ const RestaurantDetail = (props) => {
         place_id={place.place_id}
         photo={user.photoURL}
         name={user.displayName}
-        oldRating={comentUser.rating}
-        oldText={comentUser.text}
+        oldRating={comentUser ? comentUser.rating : 0}
+        oldText={comentUser ? comentUser.text : ""}
         uid={user.uid}
         tiene={tieneComent}
-        indice={indice}
+        setComentUser={setComentUser}
+        setTieneComent={setTieneComent}
       />
       <Divider style={styles.divider} />
       <Text style={styles.textIndications}>Comentarios:</Text>
+      {listComents &&
+        <Comentarios reviews={listComents} />
+      }
       <Comentarios reviews={place.reviews} />
     </ScrollView>
   );

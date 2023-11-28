@@ -12,7 +12,12 @@ export default function Comentarios(params) {
       {reviews &&
         reviews.map((coment, index) => (
           <View key={index} style={styles.cardComent}>
-            <Avatar.Image size={60} source={{ uri: coment.profile_photo_url }} style={styles.reviewAvatar} />
+            {
+              coment.profile_photo_url == "default" ?
+                <Avatar.Image size={60} source={require('../../../assets/avatar_gris.png')} style={styles.reviewAvatar} />
+                :
+                <Avatar.Image size={60} source={{ uri: coment.profile_photo_url }} style={styles.reviewAvatar} />
+            }
             <View style={styles.sectionTextReview}>
               <Text style={styles.reviewName}>{coment.author_name}</Text>
               <Calificacion rating={coment.rating} disabled={true} size={20} />

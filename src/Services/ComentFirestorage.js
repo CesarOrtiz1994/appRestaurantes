@@ -1,31 +1,35 @@
-﻿import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+﻿import { addDoc, collection, doc, getDoc, getDocs, limit, query, setDoc, updateDoc, where } from "firebase/firestore";
 import { fstore } from "../../Firebase/firebaseConfig";
 
 export const getAllComents = async (place_id) => {
-    const docRef = doc(fstore, `comentarios/${place_id}`);
-    const docCifrada = await getDoc(docRef);
-    return docCifrada.data();
+    const collectionRef = collection(fstore, 'comentarios');
+    const q = await query(collectionRef, where("place_id", "==", place_id), limit(5));
+    const querySnapshot = await getDocs(q);
+    return await querySnapshot.docs.map(doc => ({ ...doc.data() }));
 }
 
 export const addNewComent = async (place_id, photo, name, rating, text, uid) => {
-    console.log(uid)
-    const docRef = doc(fstore, `comentarios/${place_id}`);
-    await setDoc(docRef, {
-        coments: [{
+    await addDoc(collection(fstore, "comentarios"), {
+        place_id: place_id,
+        uid: uid,
+        profile_photo_url: photo,
+        author_name: name,
+        rating: rating,
+        text: text,
+    });
+}
+
+export const updateComent = async (uid, place_id, photo, name, rating, text) => {
+    const collectionRef = collection(fstore, 'comentarios');
+    const q = query(collectionRef, where("place_id", "==", place_id), where("uid", "==", uid));
+    const querySnapshot = await getDocs(q);
+    if(!querySnapshot.empty) {
+        await updateDoc(querySnapshot.docs[0].ref, {
             profile_photo_url: photo,
             author_name: name,
             rating: rating,
             text: text,
-            uid: uid
-        }]
-    });
-}
-
-export const updateComent = async (idPlace, index, new_rating, new_text) => {
-    const docuRef = doc(fstore, `comentarios/${idPlace}`);
-    await updateDoc(docuRef, {
-        [`${idPlace}.coments${index}.rating`]: new_rating,
-        [`${idPlace}.coments${index}.text`]: new_text,
-    });
+        });
+    }
 }
 

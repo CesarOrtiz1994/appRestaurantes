@@ -1,17 +1,17 @@
 import { View, Text } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
-import {auth} from '../../../../Firebase/firebaseConfig'
+import { auth } from '../../../../Firebase/firebaseConfig'
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Importa AsyncStorage si estás usando esta opción para almacenamiento local
 import { styles } from "./Profile.styles";
-import { Button, Divider } from "react-native-paper";
+import { Avatar, Button, Divider } from "react-native-paper";
 import { forms } from "../../../styles/forms";
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Colors from "../../../constants/Colors";
 
 const authh = getAuth(auth)
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
   const [displayName, setDisplayName] = useState(""); // Inicializa el estado local para el nombre del usuario
 
@@ -36,8 +36,8 @@ const ProfileScreen = ({navigation}) => {
     return unsubscribe;
   }, []); // El [] vacío asegura que este efecto solo se ejecute una vez, similar a componentDidMount
 
-  
-  const handleSignOut = async() => {
+
+  const handleSignOut = async () => {
     await signOut(authh)
       .then(async () => {
         // Sign-out exitoso
@@ -64,6 +64,12 @@ const ProfileScreen = ({navigation}) => {
     <View style={styles.container}>
       {user && (
         <View style={styles.containerUser}>
+          {
+            user.photoURL ?
+              <Avatar.Image size={200} source={{ uri: user.photoURL }} />
+              :
+              <Avatar.Image size={200} source={require('../../../assets/avatar_gris.png')} />
+          }
           <Text style={styles.text1}>{displayName}</Text>
           <Text style={styles.text2}>{user.email}</Text>
           {/* Puedes mostrar más información del usuario según tus necesidades */}
@@ -72,11 +78,11 @@ const ProfileScreen = ({navigation}) => {
       <Button mode="contained" style={[forms.buttonTextSecundary, styles.btnEditar]} onPress={handleEditProfile} >Editar</Button>
       <Divider />
       <Button mode="text" style={[forms.buttonText]} onPress={handleFavoritos} >
-      <AwesomeIcon name='heart' color={Colors.VERDE} style={styles.iconFav} />    Mis restaurantes favoritos
-        </Button>
+        <AwesomeIcon name='heart' color={Colors.VERDE} style={styles.iconFav} />    Mis restaurantes favoritos
+      </Button>
       <Button mode="contained" style={[forms.buttonText, styles.btnCerrar]} onPress={handleSignOut} >Cerrar Sesión</Button>
     </View>
   );
-  };
+};
 
 export default ProfileScreen;

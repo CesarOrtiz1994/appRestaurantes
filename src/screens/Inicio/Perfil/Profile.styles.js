@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     containerUser: {
       justifyContent: "center",
       alignItems: "center",
+      marginTop: 20,
     },
   image: {
     justifyContent: "center",
