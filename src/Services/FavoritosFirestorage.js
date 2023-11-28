@@ -7,7 +7,6 @@ import { arrayRemove, arrayUnion, doc, getDoc, setDoc, updateDoc } from "firebas
 export const getFavoritosByUser = async (uid) => {
     const docRef = doc(fstore, `favoritos/${uid}`);
     const docCifrada = await getDoc(docRef);
-    // console.log(docCifrada.data())
     return docCifrada.data();
 }
 

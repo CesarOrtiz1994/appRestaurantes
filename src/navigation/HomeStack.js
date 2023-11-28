@@ -12,13 +12,15 @@ const HomeStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
-        gestureEnabled: true,
-        ...(isAndroid && TransitionPresets.ModalPresentationIOS)
+        // gestureEnabled: true,
+        // ...(isAndroid && TransitionPresets.ModalPresentationIOS)
       }}
     >
       <Stack.Screen name="Inicio" component={HomeScreen} options={{ title: 'Inicio' }} />
       <Stack.Screen name="Restaurant" component={RestaurantDetail}
-        options={{ title: '', headerTransparent: true, headerTintColor: Colors.VERDE }} screenOptions={{ presentation: 'modal' }} />
+        options={{ title: '', headerTransparent: true, headerTintColor: Colors.VERDE }} 
+        // screenOptions={{ presentation: 'modal' }} 
+        />
     </Stack.Navigator>
   );
 };

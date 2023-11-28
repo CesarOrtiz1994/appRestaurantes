@@ -23,4 +23,13 @@ export const forms = StyleSheet.create({
         marginTop: 10,
         backgroundColor: Colors.NARANJA
     },
+    inputArea: {
+        marginBottom: 20,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        borderColor: "#747474",
+        borderWidth: 1
+    },
 });
