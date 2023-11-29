@@ -10,7 +10,7 @@ const PerfilStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="ProfileS" component={ProfileScreen} options={{ title: 'Perfil'}} />
-      <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerTransparent: true, headerTintColor: Colors.VERDE }} />
+      <Stack.Screen name="EditProfile" component={EditProfile} options={{ title: '', headerTransparent: true, headerTintColor: Colors.VERDE }} />
     </Stack.Navigator>
   );
 };

@@ -37,5 +37,15 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 20,
-  }
+  },
+  containerEdit: {
+    flex: 1,
+    marginHorizontal: 30,
+  },
+  contentImageEdit: {
+    marginTop: 60,
+  },
+  mt20: {
+    marginTop: 20
+  },
   });

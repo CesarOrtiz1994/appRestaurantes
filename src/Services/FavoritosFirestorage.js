@@ -13,7 +13,6 @@ export const getFavoritosByUser = async (uid) => {
 // función para añadir a favoritos un restaurante por usuario
 export const addFavoritosByUser = async (uid, place) => {
     const docRef = doc(fstore, `favoritos/${uid}`);
-    // await updateDoc(docRef, { places: arrayUnion({ place_id: id }) });
     // Verificar si el documento existe
     const documentSnapshot = await getDoc(docRef);
     if (documentSnapshot.exists()) {
@@ -34,7 +33,7 @@ export const isFavoritoByUser = async (uid, id) => {
         // console.log(favorites.places)
         return _.some(favorites.places, { place_id: id });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return false;
     }
 }

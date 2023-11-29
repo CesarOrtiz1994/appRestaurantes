@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FlatList, Linking } from "react-native";
+import { Linking } from "react-native";
 import { View, Text } from "react-native";
-import { Avatar, Button, Divider, TextInput } from "react-native-paper";
+import { Button, Divider } from "react-native-paper";
 import { Platform } from "react-native";
 import { ScrollView } from "react-native";
 import GlobalApi from "../../../Services/GlobalApi";
@@ -13,7 +13,6 @@ import { getAuth } from "firebase/auth";
 import { auth } from "../../../../Firebase/firebaseConfig";
 import { Calificacion } from "../../../components/Opinion/Calificacion";
 import ModalOpinion from "../../../components/Opinion/ModalOpinion";
-import { forms } from "../../../styles/forms";
 import Comentarios from "../../../components/Opinion/Comentarios/Comentarios";
 import { getAllComents } from "../../../Services/ComentFirestorage";
 

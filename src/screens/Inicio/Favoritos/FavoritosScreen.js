@@ -33,7 +33,7 @@ export default function FavoritosScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>Mi lista de restaurantes favoritos</Text>
+      <Text style={styles.text}>Mi lista de restaurantes favoritos</Text>
       <FlatList 
       data={listFavoritos}
       renderItem={({ item }) => (

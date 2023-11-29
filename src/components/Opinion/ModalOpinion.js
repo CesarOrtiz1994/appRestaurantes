@@ -50,7 +50,7 @@ export default function ModalOpinion(params) {
             })
             return;
         }
-        const foto = "default";
+        let foto = "default";
         if (photo) {
             foto = photo;
         }

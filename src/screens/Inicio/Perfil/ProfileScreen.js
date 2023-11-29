@@ -8,33 +8,27 @@ import { Avatar, Button, Divider } from "react-native-paper";
 import { forms } from "../../../styles/forms";
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Colors from "../../../constants/Colors";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 const authh = getAuth(auth)
 
 const ProfileScreen = ({ navigation }) => {
-  const [user, setUser] = useState(null);
-  const [displayName, setDisplayName] = useState(""); // Inicializa el estado local para el nombre del usuario
+  const [displayName, setDisplayName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  
+  useFocusEffect(
+    useCallback(() => {
+      const unsubscribe = authh.onAuthStateChanged((user) => {
+        setDisplayName(user?.displayName);
+        setEmail(user?.email);
+        setPhoto(user?.photoURL)
+      });
 
-  useEffect(() => {
-    const infoUser = authh.currentUser;
-    // console.log(infoUser)
-    setUser(infoUser)
-    const loadUserData = async () => {
-      // Cargar la información del usuario desde el almacenamiento local o el estado global
-      // Por ejemplo, si estás usando AsyncStorage:
-      const storedDisplayName = await AsyncStorage.getItem("displayName");
-
-      if (storedDisplayName) {
-        setDisplayName(storedDisplayName);
-      }
-    };
-
-    // Llama a la función para cargar la información del usuario cuando la pantalla se enfoca
-    const unsubscribe = navigation.addListener("focus", () => {
-      loadUserData();
-    });
-    return unsubscribe;
-  }, []); // El [] vacío asegura que este efecto solo se ejecute una vez, similar a componentDidMount
+      return unsubscribe;
+    }, [])
+  )
 
 
   const handleSignOut = async () => {
@@ -62,19 +56,19 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {user && (
+      {email && (
         <View style={styles.containerUser}>
           {
-            user.photoURL ?
-              <Avatar.Image size={200} source={{ uri: user.photoURL }} />
+            photo ?
+              <Avatar.Image size={200} source={{ uri: photo }} />
               :
               <Avatar.Image size={200} source={require('../../../assets/avatar_gris.png')} />
           }
           <Text style={styles.text1}>{displayName}</Text>
-          <Text style={styles.text2}>{user.email}</Text>
-          {/* Puedes mostrar más información del usuario según tus necesidades */}
+          <Text style={styles.text2}>{email}</Text>
         </View>
       )}
+
       <Button mode="contained" style={[forms.buttonTextSecundary, styles.btnEditar]} onPress={handleEditProfile} >Editar</Button>
       <Divider />
       <Button mode="text" style={[forms.buttonText]} onPress={handleFavoritos} >

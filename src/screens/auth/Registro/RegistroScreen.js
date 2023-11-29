@@ -1,7 +1,7 @@
 import { styles } from './RegistroScreen.style'
 import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../../../Firebase/firebaseConfig'
 import { forms } from '../../../styles/forms';
 import { Button, TextInput } from 'react-native-paper';
@@ -15,23 +15,25 @@ const RegistroScreen = ({ navigation }) => {
   const formik = useFormik({
     initialValues: {
       email: '',
+      displayName: '',
       password: '',
       repeatPassword: ''
     },
     validationSchema: Yup.object({
       email: Yup.string().email(true).required(true),
+      displayName: Yup.string().required(true),
       password: Yup.string().required(true).min(8, true),
       repeatPassword: Yup.string().required(true).min(8, true).oneOf([Yup.ref('password')], true)
     }),
     validateOnChange: false,
     onSubmit: async (formData) => {
-      const { email, password } = formData;
+      const { email, password, displayName } = formData;
       await createUserWithEmailAndPassword(authh, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           // Usuario registrado exitosamente
           const user = userCredential.user;
           // console.log("Usuario registrado:", user);
-          // Puedes redirigir a la pantalla de inicio aquí
+          await updateProfile(user, { displayName });
         })
         .catch((error) => {
           // Handle Errors here.
@@ -59,6 +61,16 @@ const RegistroScreen = ({ navigation }) => {
         onChangeText={(text) => formik.setFieldValue('email', text)}
         value={formik.values.email}
         error={formik.errors.email}
+      />
+      <TextInput
+        placeholder="Nombre"
+        style={forms.input}
+        maxLength={50}
+        autoCapitalize='none'
+        underlineColor="transparent"
+        onChangeText={(text) => formik.setFieldValue('displayName', text)}
+        value={formik.values.displayName}
+        error={formik.errors.displayName}
       />
       <TextInput
         placeholder="Contraseña"
