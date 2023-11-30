@@ -8,6 +8,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 15,
         marginTop: 20,
+        backgroundColor: '#fff',
+        borderRadius: 15,
     },
     image: {
         width: 110,

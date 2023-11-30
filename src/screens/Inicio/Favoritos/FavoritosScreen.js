@@ -41,6 +41,9 @@ export default function FavoritosScreen() {
           <PlaceItem place={item} />
         </TouchableOpacity>
       )}
+      ListFooterComponent={
+        <View style={styles.footer}></View>
+      }
       />
     </View>
   )

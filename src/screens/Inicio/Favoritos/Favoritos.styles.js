@@ -10,4 +10,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 10,
     },
+    footer: {
+        marginTop: 20
+    }
 })

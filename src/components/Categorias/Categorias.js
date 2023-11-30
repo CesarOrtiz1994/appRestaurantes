@@ -4,6 +4,7 @@ import { FlatList } from 'react-native'
 import { styles } from './Categorias.styles'
 import { Image } from 'react-native'
 import { TouchableOpacity } from 'react-native'
+import { Surface } from 'react-native-paper'
 
 export default function Categorias({setSelectedCategory}) {
 
@@ -37,10 +38,10 @@ export default function Categorias({setSelectedCategory}) {
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
           <TouchableOpacity onPress={()=> setSelectedCategory(item.value)}>
-            <View style={styles.component}>
+            <Surface style={styles.component} elevation={1}>
               <Image source={item.icon} style={styles.icon} />
               <Text>{item.name}</Text>
-            </View>
+            </Surface>
           </TouchableOpacity>
         )}
       />

@@ -4,6 +4,7 @@ import { Image } from 'react-native'
 import { styles } from './PlaceItem.styles'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { ENV } from '../../utils/constants'
+import { Surface } from 'react-native-paper'
 
 export default function PlaceItem({ place }) {
     // console.log(place.photos)
@@ -18,7 +19,7 @@ export default function PlaceItem({ place }) {
     },[place])
 
     return (
-        <View style={styles.container}>
+        <Surface style={styles.container} elevation={1}>
             <Image source={ sourceImg } style={styles.image} />
             <View style={styles.desciption}>
                 <Text numberOfLines={2} style={[styles.text, styles.textName]}>{place.name}</Text>
@@ -28,6 +29,6 @@ export default function PlaceItem({ place }) {
                     <Text>{place.rating}</Text>
                 </View>
             </View>
-        </View>
+        </Surface>
     )
 }

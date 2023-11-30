@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Linking } from "react-native";
 import { View, Text } from "react-native";
-import { Button, Divider } from "react-native-paper";
+import { Button, Chip, Divider } from "react-native-paper";
 import { Platform } from "react-native";
 import { ScrollView } from "react-native";
 import GlobalApi from "../../../Services/GlobalApi";
@@ -105,7 +105,7 @@ const RestaurantDetail = (props) => {
       </View>
       <Divider style={styles.divider} />
       <View style={styles.sectionButtons}>
-        <Button icon="map-marker" mode="outlined" onPress={() => onDirectionClick()}>Google Maps</Button>
+        <Chip icon="map-marker" mode="outlined" onPress={() => onDirectionClick()}>Google Maps</Chip>
       </View>
       <Divider style={styles.divider} />
       <Text style={styles.textIndications}>Mi Calificación y comentario:</Text>
@@ -137,6 +137,7 @@ const RestaurantDetail = (props) => {
         <Comentarios reviews={listComents} />
       }
       <Comentarios reviews={place.reviews} />
+      { listComents.length == 0 && !place.reviews ? <Text style={styles.myComent}>Aún no hay comentarios de otros usuarios.</Text> : null }
     </ScrollView>
   );
 };

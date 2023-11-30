@@ -1,6 +1,6 @@
 ﻿import { View, Text } from 'react-native'
 import React from 'react'
-import { Avatar } from 'react-native-paper';
+import { Avatar, Surface } from 'react-native-paper';
 import { Calificacion } from '../Calificacion';
 import { styles } from './Comentarios.styles';
 
@@ -11,7 +11,7 @@ export default function Comentarios(params) {
     <View>
       {reviews &&
         reviews.map((coment, index) => (
-          <View key={index} style={styles.cardComent}>
+          <Surface key={index} style={styles.cardComent} elevation={1}>
             {
               coment.profile_photo_url == "default" ?
                 <Avatar.Image size={60} source={require('../../../assets/avatar_gris.png')} style={styles.reviewAvatar} />
@@ -23,7 +23,7 @@ export default function Comentarios(params) {
               <Calificacion rating={coment.rating} disabled={true} size={20} />
               <Text style={styles.reviewText}>{coment.text}</Text>
             </View>
-          </View>
+          </Surface>
         ))
       }
     </View>
